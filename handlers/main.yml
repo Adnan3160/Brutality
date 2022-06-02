@@ -1,0 +1,6 @@
+- name: restart_httppd
+  service: 
+     name: "{{ websvc }}"
+     state: restarted
+  listen: restart_apache
+      

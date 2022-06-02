@@ -1,0 +1,25 @@
+- name: Install httpd
+  yum:
+     name: "{{ websvc }}"
+     
+- name: Start httpd
+  service: 
+      name: "{{ websvc }}"
+      state: started
+      enabled: true
+
+- name: copy index.html page
+  copy:
+     src: index.html
+     dest: "{{ web_root }}"
+
+- include_vars: test.yml
+
+- name: copy jinja2 file
+  template: 
+      src: httpd.conf.j2
+      dest: "{{ web_conf }}" 
+  notify: restart_apache
+
+- name: import another task files
+  import_tasks: ssl.yml
